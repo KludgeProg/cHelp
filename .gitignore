@@ -1,13 +1,88 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+#include<iostream>
+#include<iomanip>
 
-# Compiled Dynamic libraries
-*.so
-*.dylib
+using namespace std;
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+int a, b, c, d;
+int *pA = &a;
+int *pB = &b;
+string comEntrada, comSalida;
+
+void pedir();
+string CoEn(int *h, int *j);
+int Men_Mayor(int *v, int *w);
+string CoSal(int *k, int *l);
+int llamada(int *x, int *y);
+void imprimir(int *z, int *x, string p, string o);
+
+main()
+{
+  pedir();
+  llamada (pA, pB);
+
+  system("pause");
+  return 0;
+}
+
+string CoEn(int *h, int *j)
+{
+  (*h%2!=0 && *j%2!=0) ? comEntrada="Ambos Impares" : (*h%2==0 && *j%2==0) ? comEntrada="Ambos Pares" : comEntrada="Distintos";
+  return(comEntrada);
+}
+
+string CoSal(int *k, int *l)
+{
+  comEntrada == "Distintos" && *k%2==0 ? comSalida="Par el Primero, Impar el Segundo" : comEntrada == "Distintos" && *k%2!=0? comSalida="Impar el Primero, Par el Segundo." : comSalida="El menor, el primero.";
+  return(comSalida);
+}
+
+void imprimir(int *z, int *x, string p, string o)
+{
+  cout << "\n" << setw(7) << "Entrada" << setw(14) << "Salida" << setw(15) << "Comentario" << setw(20) << "Comentario\n";
+  cout << setw(34) << "Entrada" << setw(19) << "Salida";
+  cout << "\n\n" << c << setw(4) << d;
+  cout << setw(11) << *z << setw(4) << *x;
+  cout << setw(15) << p << setw(42) << o << "\n\n\n";
+}
+
+int llamada(int *x, int *y)
+{
+  Men_Mayor(x, y);
+  CoEn(x, y);
+  CoSal(x, y);
+  imprimir(x, y, comEntrada, comSalida);
+  
+  return(*x,*y);
+}
+
+int Men_Mayor(int *v, int *w)
+{
+  int ctrl;
+  (*v > *w ? ctrl = *v : ctrl=0);
+  (ctrl != 0 ? *v = *w, *w = ctrl : ctrl=0);
+  
+  return (*v, *w);
+}
+
+void pedir()
+{
+    while ((cout << "\nInserte un numero: ") && (!(cin >> *pA) || *pA < 1))
+  {
+    cout << "\n***Favor digite un numero entero***";
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  }
+  std::cin.ignore(1024, '\n');
+  
+  while ((cout << "Inserte un numero: ") && (!(cin >> *pB) || *pB < 1))
+  {
+    cout << "\n***Favor digite un numero entero***";
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+  }
+  std::cin.ignore(1024, '\n');
+  
+  c = a;
+  d = b;
+}
+
