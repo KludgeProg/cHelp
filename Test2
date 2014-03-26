@@ -1,0 +1,157 @@
+#include<iostream>
+#include<iomanip>
+#include<math.h>
+
+#define ROWS 12
+#define COLS 12
+#define CTRL 2
+
+using namespace std;
+
+double value[ROWS][COLS];
+double *pValue[ROWS][COLS];
+
+void iniciar(double x[ROWS][COLS]);
+double desv_est(double *h[ROWS][COLS]);
+double sum(double *y[ROWS][COLS]);
+double cambio(double *q[ROWS][COLS]);
+void menu();
+void letrero_menu();
+
+main()
+{
+  iniciar(value);
+  menu();
+ 
+  system("pause");
+  return 0;
+}
+
+void iniciar(double x[ROWS][COLS])
+{
+  x[0][0] = 1.0;
+  for(int i=0; i<ROWS; i++)
+  {
+    for(int j=0; j<COLS; j++)
+    {
+      x[i][j] = x[i][j-1] + 1;
+      pValue[i][j] = &x[i][j];
+    }
+  }
+}
+
+double desv_est(double *h[ROWS][COLS])
+{
+  double x[2];
+  x[1]=0.0;
+  x[0]=0.0;
+  
+  for(int i=0; i<ROWS; i++)
+  {
+    for(int j=0; j<COLS; j++)
+    {
+      (i==j ? x[1]=x[1]+*h[i][j] : x[1]=x[1]);
+      (x[1]==870 ? x[1]=x[1]/COLS : x[1]=x[1]);
+    }
+  }
+  
+  for(int i=0; i<ROWS; i++)
+  {
+    for(int j=0; j<COLS; j++)
+    {
+      (i==j ? x[0] = x[0]+ pow((*h[i][j]-x[1]),2) : x[0]=x[0]);
+      (x[0]==24167 ? x[0]=x[0]/COLS : x[0]=x[0]);
+    }
+  }
+  
+  x[0]=sqrt(x[0]);
+  
+  return(x[0]);
+}
+
+double sum(double *y[ROWS][COLS])
+{
+  double sum;
+  
+  for(int i=0; i<ROWS; i++)
+  {
+    for(int j=0; j<COLS; j++)
+    {
+      (i!=j || j!=i ? sum=sum+*y[i][j] : sum=sum);
+    }
+  }
+  
+  return(sum);
+}
+
+void menu()
+{
+  letrero_menu();
+  
+  int a=0;
+  while ((cout << "\nEscoja una Opcion: ") && (!(cin >> a) || a < 1 || a > 4))
+   {
+     cout << "\n***Favor digite un numero entre 1 y 4***";
+     cin.clear();
+     cin.ignore(numeric_limits<streamsize>::max(), '\n');
+   }
+   std::cin.ignore(1024, '\n');
+
+   switch(a)
+   {
+   case 1:
+      {
+        cout << "La desviacion estandar es: " << fixed << setprecision(6) << desv_est(pValue) << "\n\n";
+        break;
+      }
+   case 2:
+      {
+         cout << "La suma de los elementos es: " << fixed << setprecision(1) << sum(pValue) << "\n\n";
+         break;
+      }
+   case 3:
+      {
+        cambio(pValue);
+        
+        for(int i=0; i<ROWS; i++)
+        {
+          for(int j=0; j<COLS; j++)
+          {
+            cout << fixed << setprecision(1) << *pValue[i][j] << "\t" << setfill (' ') << setw(2);
+          }
+        }
+        break;
+      }
+   case 4:
+      {
+        break;
+      }
+   }
+}
+
+void letrero_menu()
+{
+  cout << setfill('*') << setw(81) << "\n";
+  cout << "1. Calculo de la Desviacion Estandar de los elementos de la diagonal\n";
+  cout << "   principal de una Matriz 12 x x12.\n\n";
+  cout << "2. Calculo de los elementos no pertenecientes a la diagonal principal\n";
+  cout << "   de una Matriz 12 x x12.\n\n";
+  cout << "3. Intercambio de los elementos de 2 filas de una Matriz 12 x 12\n\n";
+  cout << "4. Salir\n\n";
+  cout << setfill('*') << setw(81) << "\n";
+}
+
+double cambio(double *q[ROWS][COLS])
+{
+  double test[1][COLS];
+  
+  for(int i=0; i<1; i++)
+  {
+    for(int j=0; j<COLS; j++)
+    {
+      test[i][j]=*q[i][j];
+      *q[i][j]=*q[i+CTRL][j];
+      *q[i+CTRL][j]=test[i][j];
+    }
+  }
+}
